@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,9 +18,12 @@ public class WebMethodServlet extends HttpServlet {
     private static Logger logger = Logger.getLogger(WebMethodServlet.class.getName());
 
     private static Autowirer autowirer;
+    private static List<Object> objectsForAutowire = new ArrayList<>();
 
-    public static Autowirer getAutowirer() {
-        return autowirer;
+    public static void autowireFields(Object object) {
+        if (autowirer != null) {
+            autowirer.autowireFields(object);
+        }
     }
 
     public synchronized void init() {
@@ -42,6 +47,10 @@ public class WebMethodServlet extends HttpServlet {
         logger.info("Component scan took " + (System.currentTimeMillis() - start2) + " msec.");
 
         autowirer.init();
+
+        for (Object o : objectsForAutowire) {
+            autowirer.autowireFields(o);
+        }
 
         logger.info("All service has been initialized. (" + (System.currentTimeMillis() - start) + " msec.)");
     }
