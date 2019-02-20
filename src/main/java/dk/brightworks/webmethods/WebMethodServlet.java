@@ -17,6 +17,10 @@ public class WebMethodServlet extends HttpServlet {
 
     private static Autowirer autowirer;
 
+    public static Autowirer getAutowirer() {
+        return autowirer;
+    }
+
     public synchronized void init() {
         logger.info("Initializing services ...");
         long start = System.currentTimeMillis();
