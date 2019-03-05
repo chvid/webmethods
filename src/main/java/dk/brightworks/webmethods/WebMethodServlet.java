@@ -21,8 +21,21 @@ public class WebMethodServlet extends HttpServlet {
     private static List<Object> objectsForAutowire = new ArrayList<>();
 
     public static void autowireFields(Object object) {
-        if (autowirer != null) {
+        if (autowirer != null && autowirer.isInitialized()) {
             autowirer.autowireFields(object);
+        } else {
+            Thread thread = new Thread(() -> {
+                try {
+                    while (autowirer == null || !autowirer.isInitialized()) {
+                        Thread.sleep(10);
+                    }
+                    autowirer.autowireFields(object);
+                } catch (InterruptedException e) {
+                    // ignored
+                }
+            });
+            thread.setDaemon(true);
+            thread.start();
         }
     }
 
