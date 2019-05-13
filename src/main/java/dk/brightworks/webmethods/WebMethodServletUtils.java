@@ -36,7 +36,11 @@ public class WebMethodServletUtils {
 
     public static void outputErrorResult(HttpServletResponse response, Throwable t) throws IOException {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(response.getOutputStream()));
-        response.setStatus(500);
+        if (t instanceof HasStatusCode) {
+            response.setStatus(((HasStatusCode) t).getStatusCode());
+        } else {
+            response.setStatus(500);
+        }
         response.setContentType("application/json");
         gson.toJson(new ErrorResult(t), bw);
         bw.close();
