@@ -5,7 +5,7 @@
 
     <groupId>dk.brightworks.webmethods</groupId>
     <artifactId>webmethods</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -18,7 +18,7 @@
         <dependency>
             <groupId>dk.brightworks.autowirer</groupId>
             <artifactId>autowirer</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
